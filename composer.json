@@ -1,0 +1,52 @@
+{
+    "name": "crumbls/recolorado",
+    "description": "Laravel package to interface with ReColorado.com",
+    "keywords": [
+        "recolorado",
+        "api"
+    ],
+    "homepage": "https://github.com/crumbls/recolorado",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chase C. Miller",
+            "email": "chase@crumbls.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "pestphp/pest": "^1.20",
+        "spatie/ray": "^1.28"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crumbls\\ReColorado\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Crumbls\\ReColorado\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Crumbls\\ReColorado\\ReColoradoServiceProvider"
+      ]
+    }
+  }
+}
