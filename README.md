@@ -11,6 +11,10 @@ This is in such an early place that we don't even know what we want, so I am jus
 
 Until it can really be built out, we need to determine it's importance.  We can not get in the weeds with this one.
 
+## TODO
+Create jobs for Laravel so we can focus on being a back end process.
+Add appropriate events.
+
 ## Examples
 $listings = \ReColorado::getLatestResidential(50);
 $listings = \ReColorado::getLatestCommercial(50);
