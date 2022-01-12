@@ -6,12 +6,14 @@ return [
     'password' => env('RECOLORADO_PASSWORD'),
 
     'model_map' => [
-        'Office' => \App\Models\Brokerage::class,
-        'Member' => \App\Models\User::class,
+        'Office' => \Crumbls\Egent\Core\Models\Brokerage::class,
+        'Member' => \Crumbls\Egent\Core\Models\User::class,
+        'Property' => \Crumbls\Egent\Core\Models\Property::class
     ],
 
     'model_key' => [
-        'Property' => 'listing_id',
         'Member' => 'member_email',
+        'Office' => 'mls_id',
+        'Property' => 'listing_id'
     ]
 ];

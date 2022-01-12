@@ -1,7 +1,7 @@
 <?php
 namespace Crumbls\ReColorado\Models\Search;
 
-use App\Models\Property;
+use Crumbls\Egent\Core\Models\Property;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Addresses\Traits\Addressable;

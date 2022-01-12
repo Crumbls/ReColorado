@@ -117,7 +117,6 @@ class OneX
         $delimLength = strlen($delim);
 
         $originalClass = $rs->getClass();
-//        echo $rs->getClass();
         $castTo = \Config::get('recolorado.model_map.'.$originalClass, Record::class);
 
         $field_data = (string) $line;
@@ -145,8 +144,11 @@ class OneX
         if ($modelKey) {
             if (array_key_exists($modelKey, $attributes) && $attributes[$modelKey]) {
                 $keyValue = $attributes[$modelKey];
-                $temp = with(new $castTo)->getMap();
-                $keyName = array_key_exists($modelKey, $temp) ? $temp[$modelKey] : $modelKey;
+                $keyName = $modelKey;
+                if (method_exists($castTo, 'getMap')) {
+                    $temp = with(new $castTo)->getMap();
+                    $keyName = array_key_exists($modelKey, $temp) ? $temp[$modelKey] : $modelKey;
+                }
                 $r = $castTo::where($keyName, $keyValue)->take(1)->first();
             }
         }

@@ -2,7 +2,7 @@
 
 namespace Crumbls\ReColorado\Commands;
 
-use App\Models\User;
+use Crumbls\Egent\Core\Models\User;
 use Crumbls\ReColorado\Configuration;
 use Crumbls\ReColorado\Session;
 use Illuminate\Console\Command;

@@ -3,6 +3,7 @@
 namespace Crumbls\ReColorado;
 
 use Crumbls\ReColorado\Models\Search\Results;
+use Crumbls\ReColorado\Repositories\ReColorado as Repository;
 use Gufy\PdfToHtml\Config;
 
 class Client
@@ -12,6 +13,7 @@ class Client
 
     public function __construct()
     {
+
         $this->result = 0;
     }
 
@@ -155,6 +157,18 @@ class Client
     public function getOfficeByMlsId($agentId) {
         $rets = \ReColorado::getClient();
         $query = "(OfficeMlsId=$agentId)";
+        $data = $rets->Search('Office', 'Office', $query, ['Limit' => 1]);
+        return $data->count() ? $data->first() : null;
+    }
+
+    /**
+     * Attempt to get an office by name
+     * @param $agentId
+     * @return null
+     */
+    public function getOfficeByName($name) {
+        $rets = \ReColorado::getClient();
+        $query = "(OfficeName=$name)";
         $data = $rets->Search('Office', 'Office', $query, ['Limit' => 1]);
         return $data->count() ? $data->first() : null;
     }

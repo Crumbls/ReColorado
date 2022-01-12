@@ -40,7 +40,7 @@ class TestA extends Command
      */
     public function handle()
     {
-        $rets = \ReColorado::getSession();
+        $rets = \ReColorado::getClient();
 
 /*
         $system = $rets->GetSystemMetadata();

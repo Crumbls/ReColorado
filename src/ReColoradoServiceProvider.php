@@ -5,6 +5,8 @@ namespace Crumbls\ReColorado;
 use Crumbls\ReColorado\Commands\ImportAgent;
 use Crumbls\ReColorado\Commands\ImportAgentsByOffice;
 use Crumbls\ReColorado\Commands\ImportOffice;
+use Crumbls\ReColorado\Commands\ImportOfficeByName;
+use Crumbls\ReColorado\Commands\PatchOffice;
 use Crumbls\ReColorado\Commands\TestA;
 use Crumbls\ReColorado\Facades\ReColorado;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +21,9 @@ class ReColoradoServiceProvider extends ServiceProvider
             TestA::class, // Removable
             ImportAgent::class,
             ImportOffice::class,
-            ImportAgentsByOffice::class
+            ImportOfficeByName::class,
+            ImportAgentsByOffice::class,
+            PatchOffice::class
         ]);
         return;
         /**

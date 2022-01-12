@@ -2,10 +2,8 @@
 
 namespace Crumbls\ReColorado\Commands;
 
-use App\Models\Brokerage;
-use App\Models\User;
-use Crumbls\ReColorado\Configuration;
-use Crumbls\ReColorado\Session;
+use Crumbls\Egent\Core\Models\Brokerage;
+use Crumbls\Egent\Core\Models\User;
 use Illuminate\Console\Command;
 use Spatie\Activitylog\Models\Activity;
 

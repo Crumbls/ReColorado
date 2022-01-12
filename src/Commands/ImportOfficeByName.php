@@ -3,18 +3,17 @@
 namespace Crumbls\ReColorado\Commands;
 
 use Crumbls\Egent\Core\Models\Brokerage;
-use Crumbls\Egent\Core\Models\User;
 use Illuminate\Console\Command;
 use Spatie\Activitylog\Models\Activity;
 
-class ImportOffice extends Command
+class ImportOfficeByName extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'recolorado:import:office {officeMlsId?}';
+    protected $signature = 'recolorado:import:office-name {name?}';
 
     /**
      * The console command description.
@@ -41,45 +40,33 @@ class ImportOffice extends Command
     public function handle()
     {
 
-        $officeMlsId = $this->argument('officeMlsId');
-        if (!$officeMlsId) {
-            /**
-             * We need to figure out
-             * There is a better way to do this, but it works for now.
-             * Honestly, it will be extremely inefficient down the road.  So, rethink it.
-             * Our problem is that the current version of mysql doesn't like not in queries based on a json field.
-             */
-            $table = with(new Brokerage())->getTable();
+        $officeName = $this->argument('name');
 
-            for ($i = 0; $i < 10; $i++) {
-                $random = User::select('extended->office_mls_id as office_mls_id')
-                    ->whereNotNull('extended->office_mls_id')
-                    ->inRandomOrder()
-                    ->take(20)
-                    ->get()
-                    ->pluck('office_mls_id');
-
-                if ($random->isEmpty()) {
-                    break;
-                }
-                $exclude = \DB::table($table)->whereIn('mls_id', $random)->get()->pluck('mls_id');
-                $random = $random->diff($exclude);
-                if ($random->count()) {
-                    $officeMlsId = $random->random();
-                    break;
-                }
-            }
-        }
-
-        if (!$officeMlsId) {
+        if (!$officeName) {
             throw new \Exception('No office mls ID found.');
         }
 
-        $data = \ReColorado::getOfficeByMlsId($officeMlsId);
+        $officeName = preg_replace('/[^A-Za-z0-9\-]/', ' ', $officeName);
+        $officeName = explode(' ', $officeName);
+        $officeName = array_filter(array_unique($officeName));
+        $officeName = array_map(function ($e) {
+            return sprintf('(OfficeName=*%s*)', $e);
+        }, $officeName);
+        $query = implode(' AND ', $officeName);
 
-        if (!$data) {
+        $rets = \ReColorado::getClient();
+        $data = $rets->Search('Office', 'Office', $query);//, ['Limit' => 20]);
+
+        if (!$data->count()) {
             throw new \Exception('Office not found.');
         }
+
+        foreach ($data as $row) {
+            $this->importOffice($row);
+        }
+    }
+
+    private function importOffice($data) : void {
 
         $schema = \DB::connection()->select('explain `'.$data->getTable().'`');
         $schema = array_map(function($e) { return array_change_key_case((array)$e, CASE_LOWER); }, array_column($schema, null, 'Field'));
@@ -88,6 +75,7 @@ class ImportOffice extends Command
         $schema = array_keys($schema);
 
         $brokerage = Brokerage::where('mls_id', $data->mls_id)->take(1)->first();
+
         if ($brokerage) {
             $temp = $data->toArray();
 
