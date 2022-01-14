@@ -49,6 +49,7 @@ class ImportAgentsByOffice extends Command
         }
 
         if (!$office->mls_id) {
+            return;
             throw new \Exception('Office does not have an MLS ID set.');
         }
 

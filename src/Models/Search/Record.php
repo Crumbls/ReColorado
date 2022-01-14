@@ -37,18 +37,6 @@ class Record extends Model implements \ArrayAccess
          * TODO: Improve this.  It's ugly, but works for now.  It casts the response to a model.
          * See note in Results.php
          */
-        dd($this);
-        dd(\Config::get('recolorado.model_map.'.$this->class, Results::class));
-        echo $this->class;exit;
-        $model = '\\App\\Models\\'.$this->class;
-        echo $model;
-        exit;
-        if (class_exists($model)) {
-            $model = with(new $model);
-            $this->table = $model->getTable();
-        } else {
-            $this->table = \Str::plural(strtolower($this->class));
-        }
 
         $this->restricted_value = $results->getRestrictedIndicator();
         $this->fields = $results->getHeaders();

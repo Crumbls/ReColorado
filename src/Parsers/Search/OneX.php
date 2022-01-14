@@ -119,6 +119,9 @@ class OneX
         $originalClass = $rs->getClass();
         $castTo = \Config::get('recolorado.model_map.'.$originalClass, Record::class);
 
+        // Temporary.
+        $castTo = Record::class;
+
         $field_data = (string) $line;
 
         // Take out the first delimiter
@@ -134,6 +137,9 @@ class OneX
         $field_data = explode($delim, $field_data);
 
         $modelKey = \Config::get('recolorado.model_key.'.$originalClass, false);
+
+        // Temporary.
+        $modelKey = false;
 
         $r = null;
 
